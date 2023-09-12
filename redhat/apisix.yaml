@@ -1,0 +1,16 @@
+apisix:
+  node_listen: 9080              # APISIX listening port
+  enable_ipv6: false
+
+routes:
+  - name: "example-route"
+    uri: /api/v1
+    method: GET
+    upstream_id: 1
+upstream:
+  - name: "web"
+    id: 1
+    type: roundrobin
+    nodes:
+      "172.18.0.2:8080": 1
+#END

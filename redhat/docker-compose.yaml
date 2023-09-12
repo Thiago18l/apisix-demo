@@ -1,0 +1,31 @@
+version: "3"
+services:
+  apisix:
+    image: apisix-redhat
+    volumes:
+      - ./config.yaml:/usr/local/apisix/conf/config.yaml:ro
+      - ./apisix.yaml:/usr/local/apisix/conf/apisix.yaml:ro
+    ports:
+      - "9080:9080"
+    environment:
+      - GATEWAY_PORT=9080
+    networks:
+      mynetwork:
+        ipv4_address: 172.18.0.3
+
+  web:
+    image: web
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      mynetwork:
+        ipv4_address: 172.18.0.2
+
+networks:
+  mynetwork:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16
